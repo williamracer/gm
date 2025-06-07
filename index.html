@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pega Golpista</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a192f, #1a3a5f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+        }
+
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            box-shadow: 0 0 30px rgba(0, 180, 216, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #world-map {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="none"><rect width="800" height="500" fill="%230a192f"/><circle cx="400" cy="300" r="5" fill="%23ff9800"/><circle cx="130" cy="180" r="5" fill="%23ff9800"/><circle cx="200" cy="370" r="5" fill="%23ff9800"/><circle cx="230" cy="340" r="5" fill="%23ff9800"/><circle cx="460" cy="110" r="5" fill="%23ff9800"/><circle cx="440" cy="360" r="5" fill="%23ff9800"/><circle cx="670" cy="200" r="5" fill="%23ff9800"/><circle cx="490" cy="200" r="5" fill="%23ff9800"/><circle cx="590" cy="240" r="5" fill="%23ff9800"/><circle cx="360" cy="165" r="5" fill="%23ff9800"/><circle cx="400" cy="155" r="5" fill="%23ff9800"/><circle cx="740" cy="370" r="5" fill="%23ff9800"/></svg>') no-repeat center/cover;
+            z-index: 2;
+        }
+
+        #world-map::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('IMG/wm_green.svg') no-repeat center/contain;
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #hud {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            background: rgba(10, 25, 47, 0.7);
+            padding: 10px 0;
+            backdrop-filter: blur(5px);
+        }
+
+        #fugitive {
+            position: absolute;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 100;
+            text-shadow: 0 0 10px rgba(0, 180, 216, 0.8);
+            user-select: none;
+        }
+
+        #fugitive:hover {
+            transform: scale(1.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.5s;
+        }
+
+        #game-title {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            color: #00b4d8;
+            text-shadow: 0 0 15px rgba(0, 180, 216, 0.7);
+            letter-spacing: 2px;
+        }
+
+        #game-instructions {
+            max-width: 80%;
+            margin: 20px 0;
+            line-height: 1.6;
+            font-size: 1.1em;
+            color: #caf0f8;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(to right, #00b4d8, #0077b6);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 116, 217, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 116, 217, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .highlight {
+            color: #90e0ef;
+            font-weight: bold;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .game-over-title {
+            font-size: 3em;
+            color: #90e0ef;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 2em;
+            color: #00b4d8;
+            margin: 10px 0;
+        }
+
+        .high-score {
+            font-size: 1.5em;
+            color: #caf0f8;
+            margin: 10px 0 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="hud">
+            <div id="score">Pontuação: 0</div>
+            <div id="timer">Tempo: 60s</div>
+            <div id="high-score">Recorde: 0</div>
+        </div>
+        
+        <div id="world-map"></div>
+        <div id="fugitive" class="hidden">🏃‍♂️</div>
+        
+        <div id="start-screen">
+            <h1 id="game-title">Pega Golpista</h1>
+            <p id="game-instructions">Você é um agente internacional que deve caçar golpistas que estão em fuga e podem surgir aleatoriamente em diferentes países. <span class="highlight">Clique nos fugitivos</span> antes que eles desapareçam para ganhar pontos!</p>
+            <button id="start-btn" class="btn pulse">Iniciar Caçada</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
