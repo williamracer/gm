@@ -169,9 +169,47 @@
             color: #caf0f8;
             margin: 10px 0 30px;
         }
+        .xandao {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            right: -20px;
+            z-index: 200;
+            transition: transform 0.3s ease-in-out;
+        }
+        .pnBdgs {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background-color: #363636;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 8%;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        @keyframes insertCombos {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <audio id="aBlink" class="hidden" src="AUDIO/EFF/blink2.mp3"></audio>
     <audio id="audio1" class="hidden" src="AUDIO/sai_xandao.mp3"></audio>
     <audio id="audio2" class="hidden" src="AUDIO/meutelnao.mp3"></audio>
     <audio id="audio3" class="hidden" src="AUDIO/apapuda.mp3"></audio>
@@ -192,7 +230,11 @@
             <button id="start-btn" class="btn pulse">Iniciar Caçada</button>
         </div>
     </div>
-    
+    <div id="pn_bdgs" class="pnBdgs">
+    </div><!--
+    <img src="IMG/xandao.png" id="xandao1" class="xandao">
+    -->
+
     <script src="game.js"></script>
 </body>
 </html>
