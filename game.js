@@ -131,7 +131,46 @@
             createParticles(x, y);
 
             setTimeout(spawnFugitive, 300);
+            updateCombos();
         }
+// combos
+let lastComboImgSrc = null; // variável global para guardar o último src
+
+function updateCombos() {
+    const badgeContainer = document.getElementById('pn_bdgs');
+    if (!badgeContainer) return;
+
+    // Calcula quantos combos mostrar
+    const badgeCount = Math.floor(score / 5);
+
+    let newImgSrc;
+    if (badgeCount > 0) {
+        newImgSrc = `IMG/XND/xandao${badgeCount}s.png`;
+    } else {
+        newImgSrc = 'IMG/xandao.png';
+    }
+
+    // Só atualiza se a imagem mudou
+    if (lastComboImgSrc !== newImgSrc) {
+        badgeContainer.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = newImgSrc;
+        img.style.display = 'block';
+        img.style.margin = '8px auto';
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        img.style.animation = 'insertCombos 0.5s ease-in-out';
+        badgeContainer.appendChild(img);
+        lastComboImgSrc = newImgSrc;
+        document.getElementById('aBlink').currentTime = 0; // Reseta o tempo do áudio
+        document.getElementById('aBlink').play(); // Reproduz o áudio de combo
+    }
+}
+
+// Chame updateBadges sempre que a pontuação mudar
+        // Adicione esta linha ao final da função captureFugitive:
+        updateCombos();
+        // FIM combos
 
         function createParticles(x, y) {
             const particleCount = 25;
@@ -191,6 +230,19 @@
             fugitive.classList.add('hidden');
             document.getElementById('game-container').style.zIndex = '0';
             document.getElementById('start-screen').style.zIndex = '50';
+
+            // Posicionar o Xandão
+            const xandao = document.getElementById('pn_bdgs');
+            xandao.style.position = 'absolute';
+            xandao.style.right = '5%';
+            xandao.style.top = '50%';
+            xandao.style.transform = 'translate(0%, -50%)';
+            xandao.style.zIndex = '1';
+            xandao.style.display = 'block';
+            xandao.style.width = '380px'; // Ajuste o tamanho conforme necessário
+            xandao.style.height = '380px';
+            xandao.style.background = 'none';
+            // FIM posicionamento do Xandão
 
             // Atualizar recorde
             if(score > highScore) {
