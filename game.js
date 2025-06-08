@@ -105,6 +105,13 @@
 
             score++;
             captured++; // Incrementa capturados
+            // Reproduzir som de captura aleatório
+            const audioElements = Array.from(document.querySelectorAll('[id^="audio"]'));
+            if (audioElements.length > 0) {
+                const randomAudio = audioElements[Math.floor(Math.random() * audioElements.length)];
+                randomAudio.currentTime = 0;
+                randomAudio.play();
+            }
 
             // Ranking de capturas por país
             if (currentCountry) {
