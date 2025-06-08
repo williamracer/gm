@@ -40,6 +40,8 @@
 
         function startGame() {
             document.getElementById('game-container').style.height = '500px';
+            document.getElementById('game-container').style.zIndex = '500';
+            document.getElementById('start-screen').style.zIndex = '0';
             // Corrigido: Remover a tela de início
             startScreen.style.opacity = '0';
             setTimeout(() => {
@@ -180,6 +182,8 @@
         function endGame() {
             gameActive = false;
             fugitive.classList.add('hidden');
+            document.getElementById('game-container').style.zIndex = '0';
+            document.getElementById('start-screen').style.zIndex = '50';
 
             // Atualizar recorde
             if(score > highScore) {
@@ -191,16 +195,17 @@
             // Montar ranking ordenado
             const rankingArray = Object.entries(captureRanking)
                 .sort((a, b) => b[1] - a[1])
-                .map(([pais, qtd], idx) => `<li>${idx+1}. ${pais}: <b>${qtd}</b> captura${qtd>1?'s':''}</li>`)
+                .map(([pais, qtd]) => `<li>${pais}: <b>${qtd}</b> captura${qtd>1?'s':''}</li>`)
                 .join('');
 
             setTimeout(() => {
                 startScreen.innerHTML = `<div class="game-over-container">
                     <h1 class="game-over-title">Fim de Jogo!</h1>
                     <p class="final-score">Pontuação Final: ${score}</p>
-                    <p class="final-score">Fugitivos Capturados: <b>${captured}</b></p>
-                    <p class="final-score">Fugitivos Escaparam: <b>${escaped}</b></p>
                     <p class="high-score">Recorde: ${highScore}</p>
+                    <p class="final-score">Fugitivos Capturados: <b>${captured}</b></p><br>
+                    <p class="final-score"><b>${escaped}</b> Fugitivos Escaparam</p>
+                    
                     <div style="margin:20px 0;">
                         <h3 style="color:#00b4d8;">Ranking de Capturas por País</h3>
                         <ol style="text-align:left;max-width:300px;margin:0 auto;">
