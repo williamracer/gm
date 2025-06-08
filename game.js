@@ -42,6 +42,10 @@
             document.getElementById('game-container').style.height = '500px';
             document.getElementById('game-container').style.zIndex = '500';
             document.getElementById('start-screen').style.zIndex = '0';
+            //atualizando o card do xandão
+            document.getElementById('pn_bdgs').classList.remove('pnBdgs_end');
+            document.getElementById('pn_bdgs').classList.add('pnBdgs');
+            //FIM da atualização do card do xandão
             // Corrigido: Remover a tela de início
             startScreen.style.opacity = '0';
             setTimeout(() => {
@@ -232,16 +236,8 @@ function updateCombos() {
             document.getElementById('start-screen').style.zIndex = '50';
 
             // Posicionar o Xandão
-            const xandao = document.getElementById('pn_bdgs');
-            xandao.style.position = 'absolute';
-            xandao.style.right = '5%';
-            xandao.style.top = '50%';
-            xandao.style.transform = 'translate(0%, -50%)';
-            xandao.style.zIndex = '1';
-            xandao.style.display = 'block';
-            xandao.style.width = '380px'; // Ajuste o tamanho conforme necessário
-            xandao.style.height = '380px';
-            xandao.style.background = 'none';
+            document.getElementById('pn_bdgs').classList.remove('pnBdgs');
+            document.getElementById('pn_bdgs').classList.add('pnBdgs_end');
             // FIM posicionamento do Xandão
 
             // Atualizar recorde
