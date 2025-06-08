@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pega Golpista</title>
+    <link rel="preload" href="IMG/xandao.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao1s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao2s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao3s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao4s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao5s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao6s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao7s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao8s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao9s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao10s.png" as="image">
+    <link rel="preload" href="IMG/XND/xandao11s.png" as="image">
     <link rel="icon" href="IMG/faviconB.ico" type="image/png">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -244,7 +256,29 @@
     </div><!--
     <img src="IMG/xandao.png" id="xandao1" class="xandao">
     -->
-
+    <script>
+        // Pré-carrega outras imagens via JavaScript
+        window.addEventListener('load', () => {
+        const galleryUrls = [
+            'IMG/xandao.png', 
+            'IMG/XND/xandao1s.png', 
+            'IMG/XND/xandao2s.png', 
+            'IMG/XND/xandao3s.png', 
+            'IMG/XND/xandao4s.png', 
+            'IMG/XND/xandao5s.png', 
+            'IMG/XND/xandao6s.png', 
+            'IMG/XND/xandao7s.png', 
+            'IMG/XND/xandao8s.png', 
+            'IMG/XND/xandao9s.png', 
+            'IMG/XND/xandao10s.png', 
+            'IMG/XND/xandao11s.png',
+        ];
+        galleryUrls.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+        });
+    </script>
     <script src="game.js"></script>
 </body>
 </html>
